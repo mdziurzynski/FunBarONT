@@ -1,46 +1,52 @@
-# Nanopore Fungal Barcodes Pipeling
-A bioinformatics pipeline to process Nanopore barcoding data for fungi.
+# Nanopore Fungal Barcodes Pipeline
 
-The pipeline runs using NextFlow workflow system.
+A bioinformatics pipeline for processing Nanopore barcoding data of fungi using the Nextflow workflow system.
 
-Installation
+---
 
-1. Install NextFlow in conda
+## 🚀 Installation
 
-```
+### 1. Install Nextflow via Conda
+```bash
 conda create -n nf-env -c bioconda -c conda-forge nextflow
 ```
 
-2. Download the repository
-
-```
+### 2. Clone the Repository
+```bash
 git clone git@github.com:mdziurzynski/ont_fungal_barcoding_pipeline.git
 cd ont_fungal_barcoding_pipeline
 ```
 
-3. Prepare blast database of UNITE database
+### 3. Prepare the BLAST Database (e.g., using UNITE)
 
-   - download fasta release of UNITE database
-   - unpack and make it into a BLAST database
+- Download the FASTA release of the UNITE database.
+- Unpack the archive and create a BLAST database:
 
-```
+```bash
 makeblastdb -in <your_unite.fasta> -dbtype nucl -out <unite_blastdb>
-    
 ```
 
+---
 
-4. Run your analysis
+## 🔬 Running the Pipeline
 
-First analysis may take a little bit longer to launch because the system will setup conda environment.
+> ⚠️ The first run may take longer due to Conda environment setup.
 
-```
+```bash
 conda activate nf-env
 nextflow run main.nf \
-    --ONT_DIRECTORY <FULL PATH your ONT data after basecalling - must have pass folder with barcode01-XX folders within>
-    --BLASTDB_PATH <FULL PATH to your unite_blastdb>
+    --ONT_DIRECTORY <FULL PATH to basecalled ONT data (must contain pass/ with barcode01-XX folders)> \
+    --BLASTDB_PATH <FULL PATH to your unite_blastdb> \
     --RUN_ID <your analysis ID>
 ```
 
-5. Outputs
+---
 
-Pipeline results will be availble in folder `<run_id>_results`
+## 📁 Outputs
+
+The results will be saved in a folder named:
+
+```
+<run_id>_results
+```
+
