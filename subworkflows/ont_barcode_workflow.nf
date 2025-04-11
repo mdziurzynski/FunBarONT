@@ -11,6 +11,7 @@ include { clustering } from '../modules/vsearch/main.nf'
 include { map_fastq } from '../modules/minimap2_mapping/main.nf'
 include { polish_with_racon } from '../modules/racon/main.nf'
 include { polish_with_medaka } from '../modules/medaka/main.nf'
+include { its_extraction } from '../modules/itsx/main.nf'
 include { blastn_vs_unite } from '../modules/blast/main.nf'
 include { barcode_results_aggregation } from '../modules/json_creation/main.nf'
 
@@ -65,7 +66,9 @@ workflow ont_barcode_workflow {
 
     polish_with_medaka(polish_with_racon.out.data_tuple)
 
-    blastn_vs_unite(polish_with_medaka.out.data_tuple)
+    its_extraction(polish_with_medaka.out.data_tuple)
+
+    blastn_vs_unite(its_extraction.out.data_tuple)
 
     barcode_results_aggregation(blastn_vs_unite.out.data_tuple)
     barcode_results_aggregation.out.final_json.set { final_json }
