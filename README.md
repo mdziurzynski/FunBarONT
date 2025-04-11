@@ -23,33 +23,6 @@ This modular structure enables researchers to efficiently generate and analyze I
 
 - The pipeline automatically discovers and processes all barcode folders located in the `pass` directory of the provided folder structure.
 
-## Usage
-
-```
-FUNGAL BARCODING WITH ONT: This pipeline streamlines the conversion of Oxford Nanopore Technologies (ONT) basecaller output into high-quality Internal Transcribed Spacer (ITS) sequences.
-
-Required arguments:
-
-  --ONT_DIRECTORY  Location of the input file file.
-
-  --BLASTDB_PATH  Location of the input file file.
-
-  --RUN_ID  Location of the input file file.
-
-Optional arguments:
-
-  --MEDAKA_MODEL  Medaka inference model. [default: r1041_e82_400bps_hac_variant_v4.3.0]
-
-  --USE_ITSX  Set to 0 if you want to ommit extraction of full ITS region using ITSx. [default: 1]
-
-  --CHOPPER_MIN_READ_LENGTH Reads shorter than this value wont be used for clusters generation. [default: 150]
-
-  --CHOPPER_MAX_READ_LENGTH  Reads longer than this value wont be used for clusters generation. [default: 1000]
-
-  --REL_ABU_THRESHOLD  Output only clusters with barcode-wise relative abundance above this value. [default: 10]
-
-```
-
 ## Installation
 
 - The pipeline is designed to be run using [NextFlow](https://www.nextflow.io/) - a scientific workflow system for bioinformatic data analysis. Thank to that it allows for scalable and paraller running of different steps on multiple barcodes at once.
@@ -87,6 +60,33 @@ nextflow run main.nf \
     --ONT_DIRECTORY <FULL PATH to basecalled ONT data (must contain pass/ with barcode01-XX folders)> \
     --BLASTDB_PATH <FULL PATH to folder containing unite_blastdb> \
     --RUN_ID <your analysis ID>
+```
+
+## Usage
+
+```
+FUNGAL BARCODING WITH ONT: This pipeline streamlines the conversion of Oxford Nanopore Technologies (ONT) basecaller output into high-quality Internal Transcribed Spacer (ITS) sequences.
+
+Required arguments:
+
+  --ONT_DIRECTORY  Location of the input file file.
+
+  --BLASTDB_PATH  Location of the input file file.
+
+  --RUN_ID  Location of the input file file.
+
+Optional arguments:
+
+  --MEDAKA_MODEL  Medaka inference model. [default: r1041_e82_400bps_hac_variant_v4.3.0]
+
+  --USE_ITSX  Set to 0 if you want to ommit extraction of full ITS region using ITSx. [default: 1]
+
+  --CHOPPER_MIN_READ_LENGTH Reads shorter than this value wont be used for clusters generation. [default: 150]
+
+  --CHOPPER_MAX_READ_LENGTH  Reads longer than this value wont be used for clusters generation. [default: 1000]
+
+  --REL_ABU_THRESHOLD  Output only clusters with barcode-wise relative abundance above this value. [default: 10]
+
 ```
 
 ---
