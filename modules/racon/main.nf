@@ -1,6 +1,6 @@
 // Polish sequences with Racon
 process polish_with_racon {
-    cpus 8
+    cpus 10
 
     input:
     tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file)

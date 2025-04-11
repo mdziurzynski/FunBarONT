@@ -1,10 +1,12 @@
 // Align centroids to UNITE
 process blastn_vs_unite {
+    cpus 10 
+
     input:
-    tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path(medaka_file), path(itsx_fasta)
+    tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path(medaka_file), path(sequences_for_blasting)
 
     output:
-    tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path(medaka_file), path(itsx_fasta), path("$processing_dir/${barcode_name}_blastn_results.tsv"), emit: data_tuple
+    tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path(medaka_file), path(sequences_for_blasting), path("$processing_dir/${barcode_name}_blastn_results.tsv"), emit: data_tuple
 
     //publishDir "${barcode_dir_absolute}/", mode: 'copy'
 
@@ -12,8 +14,8 @@ process blastn_vs_unite {
     """
     echo "\$(date '+%Y-%m-%d %H:%M:%S') 💥 Running BLASTn vs UNITE database" | tee -a $processing_dir/processing.log
     blastn \
-        -query $itsx_fasta \
-        -db ${BLASTDB_PATH}/blastdb_sh_general_release_04.04.2024 \
+        -query $sequences_for_blasting \
+        -db ${BLASTDB_PATH}/db \
         -out $processing_dir/${barcode_name}_blastn_results.tsv \
         -outfmt "6 qseqid sseqid pident qcovs evalue qlen slen" \
         -evalue 1e-20 \

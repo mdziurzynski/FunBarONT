@@ -5,6 +5,7 @@ process polish_with_medaka {
 
     input:
     tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path(racon_file)
+    val medaka_model
 
     output:
     tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path("$processing_dir/${barcode_name}_medaka_output"), emit: data_tuple
@@ -17,7 +18,7 @@ process polish_with_medaka {
         -d $processing_dir/$racon_file \
         -o $processing_dir/${barcode_name}_medaka_output \
         -t 10 \
-        -m r1041_e82_400bps_hac_variant_v4.3.0 2>> $processing_dir/processing.log
+        -m $medaka_model 2>> $processing_dir/processing.log
     echo "\$(date '+%Y-%m-%d %H:%M:%S') ✅ Polishing complete with Medaka" | tee -a $processing_dir/processing.log
     """
 }

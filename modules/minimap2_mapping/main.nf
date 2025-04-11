@@ -1,5 +1,7 @@
 // Map reads with Minimap2
 process map_fastq {
+    cpus 10 
+
     input:
     tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file)
 

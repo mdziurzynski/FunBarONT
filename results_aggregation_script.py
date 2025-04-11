@@ -9,6 +9,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--json_files', nargs='+', required=True, help='List of JSON result files')
 parser.add_argument('--rel_abu_threshold', type=float, required=True, help='Relative abundance threshold (0–100)')
 parser.add_argument('--output', type=str, required=True, help='Path to output file')
+parser.add_argument('--itsx_used', type=int, required=True, help='Set to 1 if ITSx was used. Otherwise set to 0')
 
 args = parser.parse_args()
 
@@ -17,7 +18,7 @@ json_dfs = []
 for json_path in args.json_files:
     with open(f'{json_path}', 'r') as f:
         json_data = json.load(f)
-
+        print(json_path)
         # manage nonprocessed barcodes
         if "cluster_data" not in json_data:
             empty_data = [{
@@ -35,6 +36,7 @@ for json_path in args.json_files:
                 "Cluster size": cluster["cluster_size"],
                 "Cluster relative abundance": cluster["relative_abundance"] * 100,
                 "Cluster sequence": cluster["cluster_sequence"],
+                "Cluster sequence untrimmed": cluster["cluster_sequence_untrimmed"],
                 "BLASTn taxonomy assignment": cluster["blastn_tax_name"],
                 "BLASTn perc. ident.": cluster["blastn_pident"],
                 "BLASTn query coverage": cluster["blastn_query_coverage"],
@@ -55,17 +57,24 @@ for json_path in args.json_files:
         clusters_df = clusters_df[cols]
         json_dfs.append(clusters_df)
 
-df = pd.concat(json_dfs, ignore_index=True)
+if len(json_dfs) == 0:
+    df = pd.DataFrame()
+else:
+    df = pd.concat(json_dfs, ignore_index=True)
 
-# apply rel abu threshold
-df = df[df["Cluster relative abundance"] >= args.rel_abu_threshold]
-
-df = df.sort_values(by=["Barcode", "Cluster relative abundance"], ascending=[True, False])
+    # apply rel abu threshold
+    df = df[df["Cluster relative abundance"] >= args.rel_abu_threshold]
+    
+    df = df.sort_values(by=["Barcode", "Cluster relative abundance"], ascending=[True, False])
 
 if empty_json_dfs:
     # put nonprocessed barcodes on top
     to_concat = empty_json_dfs + [df]
     df = pd.concat(to_concat, ignore_index=True)
+
+# mark no itx extraction
+if args.itsx_used != 1:
+    df["Cluster sequence"] = "No ITSx sequence extraction. Taxonomy was assigned based on full, untrimmed sequence."
 
 df.to_excel(f"{args.output}", engine="openpyxl", index=False)
         

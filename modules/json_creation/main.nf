@@ -1,4 +1,5 @@
 process barcode_results_aggregation {
+
     input:
     tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path(medaka_file), path(itsx_fasta), path(blastn_file)
 
@@ -15,10 +16,10 @@ process barcode_results_aggregation {
     def main():
         # check if we have any hits after UNITE
         if os.stat("$blastn_file").st_size == 0:
-            data = [{
+            data = {
                 "barcode_id": "$barcode_name", 
                 "message": "Analysis aborted! No hits vs the reference database (UNITE by default) and most probably no sequences extracted by ITSx!"
-            }]
+            }
             with open("${barcode_name}.results.json", "w") as json_file:
                 json.dump(data, json_file, indent=4)
             return
@@ -41,6 +42,15 @@ process barcode_results_aggregation {
                 "cluster_size": cluster_size,
                 "cluster_sequence": str(record.seq)
             }
+
+            # add original, untrimmed sequences
+            for record in SeqIO.parse("$medaka_file/consensus.fasta", "fasta"):
+                medaka_record_id = record.id.split(';')[0]
+                if medaka_record_id == cluster_data["cluster_id"]:
+                    cluster_data["cluster_sequence_untrimmed"] = str(record.seq)
+                    break
+            else:
+                cluster_data["cluster_sequence_untrimmed"] = ""
         
             # find and add blastn data
             bout_data_df = bout_df[bout_df["qseqid"] == cluster_id]
