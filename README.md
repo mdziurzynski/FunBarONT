@@ -1,4 +1,4 @@
-# Nanopore Fungal Barcodes Pipeline
+# [Nanopore Fungal Barcodes Pipeline](#overview)
 
 A bioinformatics pipeline for processing Nanopore barcoding data of fungi using the Nextflow workflow system.
 
@@ -15,31 +15,48 @@ The workflow includes several key steps:
 
 This modular structure enables researchers to efficiently generate and analyze ITS sequences from ONT data with minimal manual intervention.
 
-## Data Prerequisites
+## Table of Contents
+
+- [Overview](#overview)
+- [Data Prerequisites](#data-prerequisites)
+- [Input Data](#input-data)
+- [Installation](#installation)
+  - [1. Install Nextflow via Conda](#1-install-nextflow-via-conda)
+  - [2. Clone the Repository](#2-clone-the-repository)
+  - [3. Prepare the BLAST Database](#3-prepare-the-blast-database-eg-using-unite)
+- [Running the Pipeline](#running-the-pipeline)
+- [Usage](#usage)
+- [Results](#results)
+- [Output Files](#output-files)
+  - [Columns in the Results Excel File](#columns-in-the-results-excel-file)
+- [Why am I getting more than one record per barcode?](#why-am-i-getting-more-than-one-record-per-barcode)
+- [How many sequences per cluster is enough?](#how-many-sequences-per-cluster-is-enough)
+
+## [Data Prerequisites](#data-prerequisites)
 
 - Each barcode should contain one fungal sample. The pipeline includes logic to account for potential contamination.
 
-## Input Data
+## [Input Data](#input-data)
 
 - The pipeline automatically discovers and processes all barcode folders located in the `pass` directory of the provided folder structure.
 
-## Installation
+## [Installation](#installation)
 
 - The pipeline is designed to be run using [NextFlow](https://www.nextflow.io/) - a scientific workflow system for bioinformatic data analysis. Thank to that it allows for scalable and paraller running of different steps on multiple barcodes at once.
 
 
-### 1. Install Nextflow via Conda
+### [1. Install Nextflow via Conda](#1-install-nextflow-via-conda)
 ```bash
 conda create -n nf-env -c bioconda -c conda-forge nextflow
 ```
 
-### 2. Clone the Repository
+### [2. Clone the Repository](#2-clone-the-repository)
 ```bash
 git clone git@github.com:mdziurzynski/ont_fungal_barcoding_pipeline.git
 cd ont_fungal_barcoding_pipeline
 ```
 
-### 3. Prepare the BLAST Database (e.g., using UNITE)
+### [3. Prepare the BLAST Database (e.g., using UNITE)](#3-prepare-the-blast-database-eg-using-unite)
 
 - Download the FASTA release of the UNITE database.
 - Unpack the archive and create a BLAST database:
@@ -48,7 +65,7 @@ cd ont_fungal_barcoding_pipeline
 makeblastdb -in <your_unite.fasta> -dbtype nucl -out <unite_blastdb>/db
 ```
 
-## Running the Pipeline
+## [Running the Pipeline](#running-the-pipeline)
 
 > ⚠️ The first run may take longer due to Conda environment setup.
 
@@ -62,7 +79,7 @@ nextflow run main.nf \
     --RUN_ID <your analysis ID>
 ```
 
-## Usage
+## [Usage](#usage)
 
 ```
 FUNGAL BARCODING WITH ONT: This pipeline streamlines the conversion of Oxford Nanopore Technologies (ONT) basecaller output into high-quality Internal Transcribed Spacer (ITS) sequences.
@@ -92,12 +109,12 @@ Optional arguments:
 ---
 
 
-## Results
+## (Results](#results)
 
 - **NanoPlot report** for each barcode, allowing visual quality assessment of the reads.
 - **Excel summary table** listing identified sequences for each barcode. Due to contamination or inherent variability in ONT data, more than one sequence may be identified per barcode.
 
-## Output Files
+## [Output Files](#output-files)
 
 - `"{barcode_name}_NanoPlot_results"` — Contains NanoPlot output including `NanoPlot-report.html`, which should be inspected for read count and overall quality. Verify that the majority of reads align with expected characteristics.
 - `"{run_id}.results.xlsx"` — The primary result file containing detailed information about sequence clusters and taxonomic assignments.
@@ -106,7 +123,7 @@ This Excel file may contain multiple records per barcode, including entries with
 
 For downstream applications, it is recommended to further align these sequences against diverse reference databases or incorporate them into phylogenetic analyses to confirm and refine taxonomic placement.
 
-### Columns in the Results Excel File
+### [Columns in the Results Excel File](#columns-in-the-results-excel-file)
 - _Barcode_
 - _Number of clusters_ – Clusters in barcode data at 95% identity threshold
 - _Total reads after filtering_
@@ -123,3 +140,30 @@ For downstream applications, it is recommended to further align these sequences 
 - _BLASTn e-value_
 - _BLASTn subject SH_
 - _BLASTn full taxonomy_
+
+---
+
+## [Why am I getting more than one record per barcode?](#why-am-i-getting-more-than-one-record-per-barcode)
+
+There are several possible reasons why your barcode may yield multiple sequence records:
+1. **Sample contamination with other fungi**
+
+    - The pipeline is optimized for barcoding fungal fruiting bodies, which are often colonized or contaminated by other fungal species. This is a common issue.
+    - To verify the barcode’s accuracy, cross-check the results with a morphological taxonomic assessment of the entire fruiting body. Visual inspection and expert identification can help confirm whether the observed sequences are expected or due to contamination.
+
+2. **Chimeric sequences**
+
+    - Chimeras can form during PCR when the DNA polymerase jumps between different template strands. This typically results from imbalanced PCR conditions, such as incorrect concentrations of primers, polymerase, or template DNA.
+    - To identify and remove chimeras:
+
+        - Compare the expected ITS product length for your target species with the observed sequence length.
+
+        - In your BLASTn results, look at the subject length (reference) and query length (your sequence). Discrepancies may indicate chimeric sequences.
+
+        - You can also submit your sequence to UNITE or NCBI BLASTn to see which species it aligns with most closely.
+
+---
+
+## [How many sequences per cluster is enough?](#how-many-sequences-per-cluster-is-enough)
+
+- This is yet to be confirmed, but you should not use clusters with less than 20 sequences.
