@@ -7,6 +7,7 @@ channels:
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
+  - alsa-lib=1.2.12=h4ab18f5_0
   - archspec=0.2.5=pyhd8ed1ab_0
   - aws-c-auth=0.7.31=he1a10d6_2
   - aws-c-cal=0.7.4=hae4d56a_2
@@ -37,6 +38,7 @@ dependencies:
   - ca-certificates=2025.1.31=hbcca054_0
   - cached-property=1.5.2=hd8ed1ab_1
   - cached_property=1.5.2=pyha770c72_1
+  - cairo=1.18.4=h3394656_0
   - certifi=2025.1.31=pyhd8ed1ab_0
   - cffi=1.17.1=py311hf29c0ef_0
   - charset-normalizer=3.4.1=pyhd8ed1ab_0
@@ -49,6 +51,7 @@ dependencies:
   - conda-package-handling=2.4.0=pyh7900ff3_2
   - conda-package-streaming=0.11.0=pyhd8ed1ab_1
   - conda-tree=1.1.1=pyhff2d567_0
+  - coreutils=9.5=hd590300_0
   - cpp-expected=1.1.0=hf52228f_0
   - cpython=3.11.11=py311hd8ed1ab_2
   - curl=8.12.1=h332b0f4_0
@@ -64,18 +67,22 @@ dependencies:
   - font-ttf-source-code-pro=2.038=h77eed37_0
   - font-ttf-ubuntu=0.83=h77eed37_3
   - fontconfig=2.15.0=h7e30c49_1
+  - fonts-conda-ecosystem=1=0
   - fonts-conda-forge=1=0
   - freetype=2.13.3=h48d6fc4_0
   - frozendict=2.4.6=py311h9ecbd09_0
   - fsspec=2025.3.0=pyhd8ed1ab_0
   - gflags=2.2.2=h5888daf_1005
+  - giflib=5.2.2=hd590300_0
   - glog=0.7.1=hbabe93e_0
   - gmp=6.3.0=hac33072_2
   - gmpy2=2.1.5=py311h0f6cedb_3
+  - graphite2=1.3.13=h59595ed_1003
   - grpcio=1.62.2=py311ha6695c7_0
   - gsl=2.7=he838d99_0
   - h2=4.2.0=pyhd8ed1ab_0
   - h5py=3.13.0=nompi_py311hb639ac4_100
+  - harfbuzz=9.0.0=hda332d3_1
   - hdf5=1.14.3=nompi_h2d575fe_109
   - hmmer=3.4=h503566f_3
   - hpack=4.1.0=pyhd8ed1ab_0
@@ -92,7 +99,9 @@ dependencies:
   - kernel-headers_linux-64=3.10.0=he073ed8_18
   - keyutils=1.6.1=h166bdaf_0
   - krb5=1.21.3=h659f571_0
+  - lcms2=2.17=h717163a_0
   - ld_impl_linux-64=2.43=h712a8e2_4
+  - lerc=4.0.0=h27087fc_0
   - libabseil=20240116.2=cxx17_he02047a_1
   - libaec=1.1.3=h59595ed_0
   - libarchive=3.7.7=hadbb8c3_0
@@ -108,6 +117,7 @@ dependencies:
   - libcblas=3.9.0=31_he106b2a_openblas
   - libclang-cpp20.1=20.1.1=default_hb5137d0_0
   - libcrc32c=1.1.2=h9c3ff4c_0
+  - libcups=2.3.3=h4637d8d_4
   - libcurl=8.12.1=h332b0f4_0
   - libdeflate=1.22=hb9d3cd8_0
   - libedit=3.1.20250104=pl5321h7949ede_0
@@ -121,12 +131,14 @@ dependencies:
   - libgettextpo=0.23.1=h5888daf_0
   - libgfortran=14.2.0=h69a702a_2
   - libgfortran5=14.2.0=hf1ad2bd_2
+  - libglib=2.84.1=h2ff4ddf_0
   - libgomp=14.2.0=h767d61c_2
   - libgoogle-cloud=2.29.0=h435de7b_0
   - libgoogle-cloud-storage=2.29.0=h0121fbd_0
   - libgrpc=1.62.2=h15f2491_0
   - libiconv=1.18=h4ce23a2_1
   - libidn2=2.3.8=ha4ef2c3_0
+  - libjpeg-turbo=3.0.0=hd590300_1
   - liblapack=3.9.0=31_h7ac8fdf_openblas
   - libllvm20=20.1.1=ha7bfdaf_0
   - liblzma=5.6.4=hb9d3cd8_0
@@ -146,11 +158,14 @@ dependencies:
   - libstdcxx=14.2.0=h8f9b012_2
   - libstdcxx-ng=14.2.0=h4852527_2
   - libthrift=0.20.0=h0e7cc3e_1
+  - libtiff=4.7.0=hc4654cb_2
   - libtorch=2.3.1=cpu_generic_h970db74_0
   - libunistring=0.9.10=h7f98852_0
   - libutf8proc=2.8.0=hf23e847_1
   - libuuid=2.38.1=h0b41bf4_0
   - libuv=1.50.0=hb9d3cd8_0
+  - libwebp-base=1.5.0=h851e524_0
+  - libxcb=1.17.0=h8a09558_0
   - libxcrypt=4.4.36=hd590300_1
   - libxml2=2.13.6=h8d12d68_0
   - libzlib=1.3.1=hb9d3cd8_2
@@ -171,18 +186,21 @@ dependencies:
   - ncbi-vdb=3.2.1=h9948957_0
   - ncurses=6.5=h2d0b736_3
   - networkx=3.4.2=pyh267e887_2
+  - nextflow=24.10.5=h2a3209d_1
   - nlohmann_json=3.11.3=he02047a_1
   - nomkl=1.0=h5ca1d4c_0
   - nspr=4.36=h5888daf_0
   - nss=3.108=h159eef7_0
   - numpy=1.26.4=py311h64a7726_0
   - ont-fast5-api=4.1.3=pyhdfd78af_0
+  - openjdk=22.0.1=h8651b0f_1
   - openpyxl=3.1.5=py311h50c5138_1
   - openssl=3.5.0=h7b32b05_0
   - orc=2.0.2=h669347b_0
   - packaging=24.2=pyhd8ed1ab_2
   - pandas=2.2.3=py311h7db5c69_1
   - parasail-python=1.3.4=py311hc84137b_3
+  - pcre2=10.44=hba22ea6_2
   - perl=5.32.1=7_hd590300_perl5
   - perl-archive-tar=2.40=pl5321hdfd78af_0
   - perl-carp=1.50=pl5321hd8ed1ab_0
@@ -205,10 +223,12 @@ dependencies:
   - perl-storable=3.15=pl5321hb9d3cd8_2
   - perl-types-serialiser=1.01=pl5321hdfd78af_0
   - pip=25.0.1=pyh8b19718_0
+  - pixman=0.44.2=h29eaf8c_0
   - platformdirs=4.3.7=pyh29332c3_0
   - plotly=6.0.1=pyhd8ed1ab_0
   - pluggy=1.5.0=pyhd8ed1ab_1
   - progressbar33=2.4=pyhd8ed1ab_1
+  - pthread-stubs=0.4=hb9d3cd8_1002
   - pyabpoa=1.5.3=py311h384fd50_1
   - pyarrow=17.0.0=py311hbd00459_2
   - pyarrow-core=17.0.0=py311h4854187_2_cpu
@@ -261,6 +281,17 @@ dependencies:
   - wget=1.21.4=hda4d442_0
   - wheel=0.45.1=pyhd8ed1ab_1
   - wurlitzer=3.1.1=pyhd8ed1ab_1
+  - xorg-libice=1.1.2=hb9d3cd8_0
+  - xorg-libsm=1.2.6=he73a12e_0
+  - xorg-libx11=1.8.12=h4f16b4b_0
+  - xorg-libxau=1.0.12=hb9d3cd8_0
+  - xorg-libxdmcp=1.1.5=hb9d3cd8_0
+  - xorg-libxext=1.3.6=hb9d3cd8_0
+  - xorg-libxfixes=6.0.1=hb9d3cd8_0
+  - xorg-libxi=1.8.2=hb9d3cd8_0
+  - xorg-libxrender=0.9.12=hb9d3cd8_0
+  - xorg-libxt=1.3.1=hb9d3cd8_0
+  - xorg-libxtst=1.2.5=hb9d3cd8_3
   - xz=5.6.4=hbcc6ac9_0
   - xz-gpl-tools=5.6.4=hbcc6ac9_0
   - xz-tools=5.6.4=hb9d3cd8_0
