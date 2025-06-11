@@ -58,7 +58,7 @@ conda create -n nf-env -c bioconda -c conda-forge nextflow
 ### [2. Clone the Repository](#2-clone-the-repository)
 ```bash
 git clone git@github.com:mdziurzynski/FunBarONT.git
-cd ont_fungal_barcoding_pipeline
+cd FunBarONT
 ```
 
 ### [3. Prepare the BLAST Database (e.g., using UNITE)](#3-prepare-the-blast-database-eg-using-unite)
