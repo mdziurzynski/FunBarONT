@@ -57,7 +57,7 @@ conda create -n nf-env -c bioconda -c conda-forge nextflow
 
 ### [2. Clone the Repository](#2-clone-the-repository)
 ```bash
-git clone git@github.com:mdziurzynski/FunBarONT.git
+git clone https://github.com/mdziurzynski/FunBarONT.git
 cd FunBarONT
 ```
 
