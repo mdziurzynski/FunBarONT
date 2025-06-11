@@ -52,7 +52,7 @@ This modular structure enables researchers to efficiently generate and analyze I
 
 ### [1. Install Nextflow via Conda](#1-install-nextflow-via-conda)
 ```bash
-conda create -n nf-env -c bioconda -c conda-forge nextflow
+conda create -n nf-env -c bioconda nextflow=24.10.5
 ```
 
 ### [2. Clone the Repository](#2-clone-the-repository)
