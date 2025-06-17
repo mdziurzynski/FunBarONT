@@ -109,6 +109,8 @@ Optional arguments:
 
   --REL_ABU_THRESHOLD  Output only clusters with barcode-wise relative abundance above this value. [default: 10]
 
+  --CPU_THREADS  Number of CPU threads. [default: 8]
+
 ```
 
 ---

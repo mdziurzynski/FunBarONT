@@ -24,6 +24,8 @@ if ( params.help != 0 ) {
              |
              |  --REL_ABU_THRESHOLD  Output only clusters with barcode-wise relative abundance above this value. [default: 10]
              |
+             |  --CPU_THREADS  Number of CPU threads. [default: 8]
+             |
 """.stripMargin()
 
     println(help)
@@ -44,6 +46,9 @@ params.CHOPPER_MAX_READ_LENGTH = 1000
 
 // Rel abu threshold on final table [0-100]
 params.REL_ABU_THRESHOLD = 10
+
+// CPU threads
+params.CPU_THREADS = 8
 
 include { 
     ont_barcode_workflow
@@ -75,6 +80,7 @@ workflow {
         params.USE_ITSX,
         params.CHOPPER_MIN_READ_LENGTH,
         params.CHOPPER_MAX_READ_LENGTH,
+        params.CPU_THREADS,
         ch_barcodes
     ).collect()
 

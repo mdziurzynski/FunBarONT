@@ -1,10 +1,10 @@
 // Run NanoPlot on merged data
 process quality_assessment_with_nanoplot {
-    cpus 10 
 
     input:
     val(run_id)
     tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file)
+    val cpu_threads
 
     output:
     path "${barcode_name}_NanoPlot_results"
@@ -15,7 +15,7 @@ process quality_assessment_with_nanoplot {
     """
     echo "\$(date '+%Y-%m-%d %H:%M:%S') 🔬 Running NanoPlot: ${processing_dir}" | tee -a $processing_dir/processing.log
     NanoPlot \
-    	--threads 10 \
+    	--threads $cpu_threads \
     	--outdir ${barcode_name}_NanoPlot_results \
     	--info_in_report \
     	--only-report \
