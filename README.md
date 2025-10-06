@@ -109,6 +109,8 @@ Optional arguments:
 
   --REL_ABU_THRESHOLD  Output only clusters with barcode-wise relative abundance above this value. [default: 10]
 
+  --OUTPUT_ALL_POLISHED_SEQS Output all polished sequences even those without UNITE hist (if your are working witn non-ITS sequences). [default: 0]
+
   --CPU_THREADS  Number of CPU threads. [default: 8]
 
 ```

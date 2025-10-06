@@ -22,6 +22,8 @@ if ( params.help != 0 ) {
              |
              |  --CHOPPER_MAX_READ_LENGTH  Reads longer than this value wont be used for clusters generation. [default: 1000]
              |
+             |  --OUTPUT_ALL_POLISHED_SEQS Output all polished sequences even those without UNITE hist (if your are working witn non-ITS sequences). [default: 0]
+             |
              |  --REL_ABU_THRESHOLD  Output only clusters with barcode-wise relative abundance above this value. [default: 10]
              |
              |  --CPU_THREADS  Number of CPU threads. [default: 8]
@@ -39,6 +41,7 @@ params.BLASTDB_PATH
 params.RUN_ID
 params.MEDAKA_MODEL = 'r1041_e82_400bps_hac_variant_v4.3.0'
 params.USE_ITSX = 1
+params.OUTPUT_ALL_POLISH_SEQS = 0
 
 // Chopper min and max length of reads
 params.CHOPPER_MIN_READ_LENGTH = 150
@@ -78,6 +81,7 @@ workflow {
         params.RUN_ID,
         params.MEDAKA_MODEL,
         params.USE_ITSX,
+        params.OUTPUT_ALL_POLISHED_SEQS,
         params.CHOPPER_MIN_READ_LENGTH,
         params.CHOPPER_MAX_READ_LENGTH,
         params.CPU_THREADS,

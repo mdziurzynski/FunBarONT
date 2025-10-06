@@ -2,6 +2,7 @@ process barcode_results_aggregation {
 
     input:
     tuple val(barcode_dir_absolute), val(barcode_name), path(barcode_dir), path(BLASTDB_PATH), path(processing_dir), path(fastq_file), path(filtlong_file), path(centroids_file), path(minimap_file), path(medaka_file), path(itsx_fasta), path(blastn_file)
+    val(output_all_polished_seqs)
 
     output:
     path("${barcode_name}.results.json") , emit: final_json
@@ -13,9 +14,15 @@ process barcode_results_aggregation {
     import os
     import pandas as pd
 
+    #!/usr/bin/env python3
+    from Bio import SeqIO
+    import json
+    import os
+    import pandas as pd
+
     def main():
         # check if we have any hits after UNITE
-        if os.stat("$blastn_file").st_size == 0:
+        if "$output_all_polished_seqs" == "0" and os.stat("$blastn_file").st_size == 0:
             data = {
                 "barcode_id": "$barcode_name", 
                 "message": "Analysis aborted! No hits vs the reference database (UNITE by default) and most probably no sequences extracted by ITSx!"
@@ -54,24 +61,29 @@ process barcode_results_aggregation {
         
             # find and add blastn data
             bout_data_df = bout_df[bout_df["qseqid"] == cluster_id]
-            if bout_data_df.shape[0] == 0:
-                continue
+
+            # Benio case - he wants to get everything, because he is running not only ITS
+            if ("$output_all_polished_seqs" == "0") and (bout_data_df.shape[0] == 0):
                 records_list.append(cluster_data)
+            elif bout_data_df.shape[0] == 0:
+                continue
             elif bout_data_df.shape[0] > 1:
-                raise Exception("Too many hits per sample - should be only one! barcode16")
-            bout_data_dict = bout_data_df.to_dict(orient='records')[0]
-            tax_name, ver, sh_id, seq_type, full_taxonomy = bout_data_dict['sseqid'].split("|")
-            cluster_data.update({
-                "blastn_tax_name": tax_name,
-                "blastn_sh_id": sh_id,
-                "blastn_full_taxonomy": full_taxonomy,
-                "blastn_pident": bout_data_dict["pident"],
-                "blastn_query_coverage": bout_data_dict["qcovs"],
-                "blastn_evalue": bout_data_dict["evalue"],
-                "blastn_query_length": bout_data_dict["qlen"],
-                "blastn_subject_length": bout_data_dict["slen"],
-            })
-            records_list.append(cluster_data)
+                raise Exception(f"Too many hits per sample - should be only one! cluster id: {cluster_id}")
+            # this should be the main situation - you want only the ITS sequences with hits to ITS database (UNITE)
+            else: 
+                bout_data_dict = bout_data_df.to_dict(orient='records')[0]
+                tax_name, ver, sh_id, seq_type, full_taxonomy = bout_data_dict['sseqid'].split("|")
+                cluster_data.update({
+                    "blastn_tax_name": tax_name,
+                    "blastn_sh_id": sh_id,
+                    "blastn_full_taxonomy": full_taxonomy,
+                    "blastn_pident": bout_data_dict["pident"],
+                    "blastn_query_coverage": bout_data_dict["qcovs"],
+                    "blastn_evalue": bout_data_dict["evalue"],
+                    "blastn_query_length": bout_data_dict["qlen"],
+                    "blastn_subject_length": bout_data_dict["slen"],
+                })
+                records_list.append(cluster_data)
         
         sorted_data = sorted(records_list, key=lambda x: x["cluster_size"], reverse=True)
         for cluster in sorted_data:

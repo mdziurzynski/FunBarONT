@@ -29,6 +29,7 @@ workflow ont_barcode_workflow {
     run_id
     medaka_model
     use_itsx
+    output_all_polished_seqs
     chopper_min
     chopper_max
     cpu_threads
@@ -91,7 +92,7 @@ workflow ont_barcode_workflow {
 
     blastn_vs_unite(its_extraction.out.data_tuple, cpu_threads)
 
-    barcode_results_aggregation(blastn_vs_unite.out.data_tuple)
+    barcode_results_aggregation(blastn_vs_unite.out.data_tuple, output_all_polished_seqs)
     barcode_results_aggregation.out.final_json.set { final_json }
 
     final_data = final_data.mix(final_json)
