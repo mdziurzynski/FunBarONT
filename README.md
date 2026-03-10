@@ -183,6 +183,6 @@ There are several possible reasons why your barcode may yield multiple sequence 
 
 GNU General Public License v3.0
 
-The pipeline was developed by Mikołaj Dziurzyński in scope of the [FunDive](https://fun-dive.eu/) project.
+The pipeline was developed by Mikołaj Dziurzyński in scope of the [FunDive](https://fun-dive.eu/) project and the [PestSpace](https://interreg-baltic.eu/project/pestspace/) project.
 
 Inspired by [BaNaNA](https://github.com/ibe-uw/BaNaNA)
