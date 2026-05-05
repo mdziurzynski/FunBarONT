@@ -21,7 +21,7 @@ process quality_assessment_with_nanoplot {
     	--only-report \
     	--N50 \
     	--title $barcode_name \
-    	--fastq_rich $fastq_file 2>> $processing_dir/processing.log
+    	--fastq $fastq_file 2>> $processing_dir/processing.log
     echo "\$(date '+%Y-%m-%d %H:%M:%S') ✅ Created: $processing_dir/${barcode_name}_NanoPlot_results" | tee -a $processing_dir/processing.log
     """
 }
